@@ -1,13 +1,14 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
-
+int count = 0;
 void maxmin(int a[], int i, int j, int *max, int *min){
-    int max1, min1, mid,count = 0;
+    int max1, min1, mid;
     if(i == j){
         *max = *min = a[i];
     }
     else if(i == j - 1){
+        count++;
         if(a[i] < a[j]){
             *max = a[j];
             *min = a[i];
@@ -18,12 +19,15 @@ void maxmin(int a[], int i, int j, int *max, int *min){
     }
     else{
         mid = (i + j) / 2;
-        maxmin(a, i, mid, &max1, &min1);
-        maxmin(a, mid + 1, j, max, min);
-        if(*max < max1)
+        maxmin(a, i, mid, max, min);
+        maxmin(a, mid + 1, j, &max1, &min1);
+        count = count +2 ;
+        if(*max < max1){
             *max = max1;
-        if(*min > min1)
+        }
+        if(*min > min1){
             *min = min1;
+        }
     }
 }
 
@@ -47,4 +51,6 @@ int main(){
     maxmin(a, 0, n - 1, &max, &min);
     printf("\nThe maximum value is :%d", max);
     printf("\nThe minimum value is :%d", min);
+    printf("\nThe number of comparisons is %d",count);
+    return 0;
 }
